@@ -6,6 +6,7 @@ morgan.token('postRequestData', (request, response) => {
   return request.postRequestData
 })
 const app = express()
+app.use(express.static('build'))
 app.use(express.json())
 app.use(capturePostRequestData)
 
