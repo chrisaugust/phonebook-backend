@@ -71,48 +71,51 @@ app.get('/api/persons', (request, response) => {
 //   }
 // })
 
-// app.delete('/api/persons/:id', (request, response) => {
-//   const personId = Number(request.params.id)
-//   persons = persons.filter(person => person.id !== personId)
+app.delete('/api/persons/:id', (request, response) => {
+  const personId = Number(request.params.id)
+  Person.findById(request.params.id).then(person => {
+    person.deleteOne()
+  })
 
-//   response.status(204).end()
-// })
+  response.status(204).json({
+    message: 'person deleted'
+  })
+})
 
 // const generateId = () => {
 //   return Math.floor(1000000 * Math.random())
 // }
 
-// app.post('/api/persons', (request, response) => {
-//   const body = request.body
+app.post('/api/persons', (request, response) => {
+  const body = request.body
 
-//   if (!body.name || body.name === "") {
-//     return response.status(400).json({
-//       error: 'name missing'
-//     })
-//   }
+  if (body.name === undefined) {
+    return response.status(400).json({
+      error: 'name missing'
+    })
+  }
 
-//   if (persons.find(person => person.name === body.name)) {
-//     return response.status(400).json({
-//       error: 'name already in phonebook'
-//     })
-//   }
+  // if (persons.find(person => person.name === body.name)) {
+  //   return response.status(400).json({
+  //     error: 'name already in phonebook'
+  //   })
+  // }
 
-//   if (!body.number || body.number === "") {
-//     return response.status(400).json({
-//       error: 'number missing'
-//     })
-//   }
+  if (body.number === undefined) {
+    return response.status(400).json({
+      error: 'number missing'
+    })
+  }
 
-//   const person = {
-//     id: generateId(),
-//     name: body.name,
-//     number: body.number
-//   }
+  const person = new Person({
+    name: body.name,
+    number: body.number,
+  })
 
-//   persons = persons.concat(person)
-
-//   response.json(person)
-// })
+  person.save().then(savedPerson => {
+    response.json(person)
+  })
+})
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {
