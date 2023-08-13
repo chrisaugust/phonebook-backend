@@ -1,28 +1,28 @@
 require('dotenv').config()
 const express = require('express')
-const morgan = require('morgan')
+// const morgan = require('morgan')
 const cors = require('cors')
 
-morgan.token('postRequestData', (request, response) => {
-  return request.postRequestData
-})
+// morgan.token('postRequestData', (request, response) => {
+//   return request.postRequestData
+// })
 const app = express()
 const Person = require('./models/person')
 app.use(cors())
 app.use(express.static('build'))
 app.use(express.json())
 
-const capturePostRequestData =  (request, response, next) => {
-  request.postRequestData = JSON.stringify(request.body)
-  next()
-}
-app.use(capturePostRequestData)
-app.use(morgan(':method :url :status :res[content-length] - :response-time ms :postRequestData'))
+// const capturePostRequestData =  (request, response, next) => {
+//   request.postRequestData = JSON.stringify(request.body)
+//   next()
+// }
+// app.use(capturePostRequestData)
+// app.use(morgan(':method :url :status :res[content-length] - :response-time ms :postRequestData'))
 
-const unknownEndpoint = (request, response) => {
-  response.status(404).send({ error: 'unknown endpoint' })
-}
-app.use(unknownEndpoint)
+// const unknownEndpoint = (request, response) => {
+//   response.status(404).send({ error: 'unknown endpoint' })
+// }
+// app.use(unknownEndpoint)
 
 // let persons = [
 //     { 
