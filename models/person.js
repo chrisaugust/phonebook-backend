@@ -13,8 +13,23 @@ mongoose.connect(url)
   })
 
 const personSchema = new mongoose.Schema({
-  name: String,
-  number: String,
+  name: {
+    type: String,
+    minLength: 3,
+    required: true
+  },
+  number: {
+    type: String,
+    minLength: 9,
+    validate: {
+      validator: function(v) {
+        return /(\d{2}|\d{3})-([0-9]+)/.test(v)
+      },
+      message: props => 
+      `${props.value} is not valid! Number must be at least 8 digits long, and use the format nn-nnnnnn or nnn-nnnnn (2 or 3 numbers, followed by a dash, followed by 6 or more numbers)`
+    },
+    required: true
+  },
 })
 
 personSchema.set('toJSON', {
