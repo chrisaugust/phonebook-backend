@@ -5,7 +5,7 @@ const url = process.env.MONGODB_URI
 console.log('connecting to ', url)
 
 mongoose.connect(url)
-  .then(result => {
+  .then(() => {
     console.log('connected to MongoDB')
   })
   .catch(error => {
@@ -27,8 +27,7 @@ const personSchema = new mongoose.Schema({
         }
         return /^(\d{2}|\d{3})-\d{6,10}/.test(v)
       },
-      message: props => 
-        `${props.value} is not valid! Must use the format nn-nnnnnn or nnn-nnnnn (2 or 3 numbers, followed by a dash, followed by 6 or more numbers)`
+      message: props => `${props.value} is not valid! Must use the format nn-nnnnnn or nnn-nnnnn (2 or 3 numbers, followed by a dash, followed by 6 or more numbers)`
     },
     required: true
   },
