@@ -66,12 +66,12 @@ app.get('/api/persons/:id', (request, response, next) => {
 })
 
 app.delete('/api/persons/:id', (request, response, next) => {
-  Person.findById(request.params.id).then(person => {
+  Person.findById(request.params.id)
+  .then(person => {
     person.deleteOne()
-  })
-
-  response.status(204).json({
-    message: 'person deleted'
+    response.status(204).json({
+      message: 'person deleted'
+    })
   })
   .catch(error => next(error))
 })

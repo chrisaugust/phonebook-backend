@@ -20,13 +20,15 @@ const personSchema = new mongoose.Schema({
   },
   number: {
     type: String,
-    minLength: 9,
     validate: {
-      validator: function(v) {
-        return /(\d{2}|\d{3})-([0-9]+)/.test(v)
+      validator: (v) => {
+        if (v.length < 8) {
+          throw new Error('Number must be at least 8 digits.')
+        }
+        return /^(\d{2}|\d{3})-\d{6,10}/.test(v)
       },
       message: props => 
-      `${props.value} is not valid! Number must be at least 8 digits long, and use the format nn-nnnnnn or nnn-nnnnn (2 or 3 numbers, followed by a dash, followed by 6 or more numbers)`
+        `${props.value} is not valid! Must use the format nn-nnnnnn or nnn-nnnnn (2 or 3 numbers, followed by a dash, followed by 6 or more numbers)`
     },
     required: true
   },
